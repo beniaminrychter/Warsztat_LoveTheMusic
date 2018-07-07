@@ -1,32 +1,36 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
+var sourcemaps = require('gulp-sourcemaps');
 var browserSync = require('browser-sync').create();
 
+
 /**
- * SASS -> CSS
+ * Kompilacja SASS -> CSS
  */
 gulp.task( 'sass', function(){
-   return gulp.src('scss/main.scss')
-       .pipe( sourcemaps.init() ) // Inicjalizacja map kodu źródłowego
+    return gulp.src('scss/main.scss') // Plik wejściowy do kompilacji
 
-       .pipe( sass().on('error', sass.logError) ) // Wyświetlanie błędów w konsoli
+        .pipe( sass().on('error', sass.logError) ) // Wyświetlanie informacji o błędach w kodzie
 
-       .pipe( autoprefixer({
-           browsers: ['last 4 versions']
-       }))
+        .pipe( sourcemaps.init() ) // Inicjalizacja funckji map źródłowych
+        .pipe(sourcemaps.identityMap())
 
-       .pipe( sass({
-           outputStyle: 'nested'
-       })) // Uruchomienie konwersji SASS->CSS w formacie skompresowanym
+        .pipe( autoprefixer({
+            browsers: ['last 4 versions'] // Uruchomienie autoprefixera dla 4 wersji przeglądarek wstecz
+        }))
 
-       .pipe( sourcemaps.write() ) // Dopisanie map kodu źródłowego do CSS'a
+        .pipe( sass({
+            outputStyle: 'compressed' // Kompilacja z SASS na CSS
+        }))
 
-       .pipe( gulp.dest('css') ) // Zapis pliku CSS do folderu CSS
+        .pipe( sourcemaps.write() ) // Dopisanie do pliku mapy źródłowej
 
-       .pipe(browserSync.stream()) // Odświeżenie widoku
+        .pipe( gulp.dest('css') ) // Zapis zmodyfikowanego pliku do katalogu /css
+
+        .pipe(browserSync.stream()) // Odświeżenie widoku
 });
+
 
 /**
  * Obserwator plików
@@ -35,7 +39,8 @@ gulp.task( 'watch', function(){
     browserSync.init({
         server: ".",
         notify: true,
-        open: true
+        open: true,
+        browser: "google chrome"
     });
 
     // Obserwacja SASS'a
