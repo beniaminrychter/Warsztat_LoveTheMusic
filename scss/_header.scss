@@ -1,0 +1,44 @@
+header {
+  position: absolute;
+  width: 100vw;
+  top: 0;
+  z-index: 1;
+
+  .logo {
+    width: 120px;
+    height: auto;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+
+    ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        &.active {
+          a {
+            color: $main-color;
+          }
+        }
+      }
+
+      a {
+        text-decoration: none;
+        padding-left: 30px;
+        text-transform: uppercase;
+        color: #808080;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+
